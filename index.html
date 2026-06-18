@@ -85,13 +85,11 @@
   border-radius: var(--radius-m);
   padding: 18px 16px;
 }
-.why-num {
-  font-size: 10px; font-weight: 800;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--accent); display: block; margin-bottom: 6px;
-}
-.why-card strong { font-size: 14px; display: block; margin-bottom: 5px; color: var(--text-1); }
-.why-card p { font-size: 12.5px; color: var(--text-2); line-height: 1.65; margin: 0; }
+.why-icon { font-size: 28px; margin-bottom: 10px; }
+.why-card strong { font-size: 15px; display: block; margin-bottom: 6px; color: var(--text-1); }
+.why-card p { font-size: 13px; color: var(--text-2); line-height: 1.6; margin: 0; }
+
+.tension-icon { font-size: 26px; margin-bottom: 10px; }
 
 /* ── Closing quote ── */
 .big-quote {
@@ -160,6 +158,7 @@
 
     <div class="tension-grid anim-stagger-list" data-anim-target>
       <div class="tension-card">
+        <div class="tension-icon">🛡️</div>
         <div class="tension-num">Tension 01</div>
         <h4>Safety vs. Access</h4>
         <ul>
@@ -169,6 +168,7 @@
         </ul>
       </div>
       <div class="tension-card">
+        <div class="tension-icon">🏢</div>
         <div class="tension-num">Tension 02</div>
         <h4>Amazon's Triple Role</h4>
         <ul>
@@ -179,6 +179,7 @@
         </ul>
       </div>
       <div class="tension-card">
+        <div class="tension-icon">⚖️</div>
         <div class="tension-num">Tension 03</div>
         <h4>First-Ever AI Export Control</h4>
         <ul>
@@ -203,27 +204,26 @@
       <span class="eyebrow">BU.330.735 · Andre Marshall</span>
     </div>
 
-    <p class="kicker">Course Themes: Week 4 AI Safety · Week 6 Regulatory &amp; Policy Frameworks</p>
-    <h2 class="h2 anim-fade-up" data-anim="fade-up" style="font-size:28px;line-height:1.3;max-width:900px">
+    <h2 class="h2 anim-fade-up" data-anim="fade-up" style="font-size:30px;line-height:1.3;max-width:900px">
       The First Government Shutdown of a Commercial AI Model
       <span class="gradient-text"> Won't Be the Last</span>
     </h2>
 
     <div class="why-grid anim-stagger-list" data-anim-target>
       <div class="why-card">
-        <span class="why-num">01 · Guardrails</span>
-        <strong>Stronger model, weaker guardrails</strong>
-        <p>3 words bypassed everything. Guardrails ask the model to judge intent — fundamentally unreliable.</p>
+        <div class="why-icon">🔓</div>
+        <strong>Guardrails don't scale</strong>
+        <p>"Fix this code" bypassed everything. Asking a model to judge intent is fundamentally unreliable.</p>
       </div>
       <div class="why-card">
-        <span class="why-num">02 · Governance</span>
-        <strong>Export controls, not legislation</strong>
-        <p>90-minute notice. No courts. No appeals. This is how governments will move on AI.</p>
+        <div class="why-icon">⚡</div>
+        <strong>Export controls &gt; legislation</strong>
+        <p>90-minute notice. No courts. No appeals. Governments won't wait for Congress.</p>
       </div>
       <div class="why-card">
-        <span class="why-num">03 · Access</span>
-        <strong>AI as geopolitical resource</strong>
-        <p>Your nationality can get your AI cut off. Access is becoming a lever, not a product.</p>
+        <div class="why-icon">🌐</div>
+        <strong>AI access = geopolitical lever</strong>
+        <p>Your nationality can get your tools cut off. Access is no longer just a product.</p>
       </div>
     </div>
 
