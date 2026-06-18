@@ -1,0 +1,26 @@
+/* Claude brand theme */
+:root {
+  --bg:        #FAF9F7;
+  --bg-soft:   #F3EDE6;
+  --surface:   #FFFFFF;
+  --surface-2: #F7F2ED;
+  --border:    #E8DDD5;
+  --text-1:    #1C1917;
+  --text-2:    #5C4A3D;
+  --text-3:    #9A8070;
+  --accent:    #D97757;
+  --accent-2:  #F0A882;
+  --accent-3:  #FBD5C0;
+  --good:      #2D8653;
+  --warn:      #C8850A;
+  --bad:       #C0392B;
+  --grad:      linear-gradient(135deg, #D97757 0%, #F0A882 100%);
+  --grad-soft: linear-gradient(135deg, #F5E6DC 0%, #FBD5C0 100%);
+  --radius-s:  6px;
+  --radius-m:  12px;
+  --radius-l:  18px;
+  --shadow-s:  0 1px 4px rgba(28,25,23,.08);
+  --shadow-m:  0 4px 16px rgba(28,25,23,.10);
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+}
