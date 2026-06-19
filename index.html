@@ -1,246 +1,315 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="claude">
+<html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Share & Tell — Fable 5 Shutdown</title>
-<link rel="stylesheet" href="assets/fonts.css">
-<link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" id="theme-link" href="assets/themes/claude.css">
-<link rel="stylesheet" href="assets/animations/animations.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet">
 <style>
-/* ── Timeline ── */
-.tl { position: relative; margin-top: 44px; }
-.tl::before {
-  content: "";
-  position: absolute;
-  left: 8%; right: 8%; top: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, #D97757, #F0A882);
-}
-.tl .row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  padding: 0 6%;
-}
-.tl .item { position: relative; padding-top: 72px; text-align: center; }
-.tl .dot {
-  position: absolute; top: 28px; left: 50%;
-  transform: translateX(-50%);
-  width: 24px; height: 24px; border-radius: 50%;
-  background: var(--accent);
-  border: 4px solid var(--bg);
-  box-shadow: 0 0 0 2px var(--accent);
-}
-.tl .dot.red { background: #C0392B; box-shadow: 0 0 0 2px #C0392B; }
-.tl .timestamp {
-  font-size: 11px; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--text-3);
-  position: absolute; top: 0; left: 0; right: 0;
-}
-.tl h4 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
-.tl p  { font-size: 13px; color: var(--text-2); line-height: 1.65; }
+:root {
+  --bg:      #FAF9F7;
+  --card:    #F0EAE2;
+  --card-2:  #E6DDD4;
+  --text:    #1C1917;
+  --muted:   #7A6558;
+  --accent:  #D97757;
+  --grid:    rgba(217,119,87,.055);
 
-/* ── Tension cards ── */
-.tension-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px; margin-top: 24px;
-}
-.tension-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-m);
-  padding: 22px 18px;
-  position: relative; overflow: hidden;
-}
-.tension-card::before {
-  content: "";
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--grad);
-}
-.tension-num {
-  font-size: 10px; font-weight: 800;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 8px;
-}
-.tension-card h4 {
-  font-size: 16px; font-weight: 700;
-  color: var(--text-1); margin-bottom: 12px; line-height: 1.3;
-}
-.tension-card ul { padding-left: 16px; margin: 0; }
-.tension-card li { font-size: 13px; color: var(--text-2); line-height: 1.75; }
-.tension-card li::marker { color: var(--accent); }
+  --ff-d: 'Bebas Neue', sans-serif;
+  --ff-b: 'DM Sans', system-ui, sans-serif;
 
-/* ── Why-it-matters grid ── */
-.why-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px; margin-top: 18px;
-}
-.why-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-m);
-  padding: 18px 16px;
-}
-.why-icon { font-size: 28px; margin-bottom: 10px; }
-.why-card strong { font-size: 15px; display: block; margin-bottom: 6px; color: var(--text-1); }
-.why-card p { font-size: 13px; color: var(--text-2); line-height: 1.6; margin: 0; }
+  --fs-hero: clamp(5rem, 13vw, 10.5rem);
+  --fs-h2:   clamp(2.4rem, 5.5vw, 4.5rem);
+  --fs-h3:   clamp(1.1rem, 2vw, 1.6rem);
+  --fs-body: clamp(.9rem, 1.5vw, 1.15rem);
+  --fs-tag:  clamp(.65rem, .95vw, .8rem);
 
-.tension-icon { font-size: 26px; margin-bottom: 10px; }
-
-/* ── Closing quote ── */
-.big-quote {
-  margin-top: 18px;
-  font-size: 19px; font-style: italic; line-height: 1.6;
-  color: var(--text-1);
-  border-left: 3px solid var(--accent);
-  padding-left: 20px;
+  --px: clamp(3rem, 8vw, 8rem);
+  --py: clamp(2rem, 4.5vh, 4rem);
+  --gap: clamp(1rem, 2vw, 1.8rem);
+  --ease: cubic-bezier(.16,1,.3,1);
+  --dur: .65s;
 }
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-snap-type:y mandatory; }
+body { background:var(--bg); color:var(--text); font-family:var(--ff-b); overflow-x:hidden; }
+
+/* ── Slide base ── */
+.slide {
+  height:100vh; height:100dvh;
+  overflow:hidden; scroll-snap-align:start;
+  position:relative;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:var(--py) var(--px);
+}
+.slide::before {
+  content:''; position:absolute; inset:0;
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:56px 56px;
+  pointer-events:none; z-index:0;
+}
+.slide > * { position:relative; z-index:1; }
+
+/* ── Reveal animations ── */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease); }
+.slide.visible .reveal { opacity:1; transform:none; }
+.d1{transition-delay:.05s} .d2{transition-delay:.18s}
+.d3{transition-delay:.32s} .d4{transition-delay:.46s} .d5{transition-delay:.60s}
+
+/* ── Tag label ── */
+.tag {
+  display:inline-flex; align-items:center; gap:.6em;
+  font-size:var(--fs-tag); font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:clamp(.5rem,1.5vh,1rem);
+}
+.tag::before { content:''; display:block; width:2em; height:2px; background:var(--accent); border-radius:2px; }
+
+/* ── Progress bar ── */
+.progress-bar { position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0%; z-index:100; transition:width .3s ease; }
+
+/* ── Nav dots ── */
+.nav-dots { position:fixed; right:clamp(.8rem,2vw,1.5rem); top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:8px; z-index:100; }
+.nav-dot { width:7px; height:7px; border-radius:50%; background:var(--card-2); cursor:pointer; border:none; transition:background .3s,transform .3s; }
+.nav-dot.active { background:var(--accent); transform:scale(1.5); }
+
+/* ── Slide footer ── */
+.slide-footer { position:absolute; bottom:var(--py); left:var(--px); right:var(--px); display:flex; justify-content:space-between; align-items:center; font-size:.72rem; color:var(--muted); letter-spacing:.06em; }
+
+/* ══════════════════════════════
+   SLIDE 1
+══════════════════════════════ */
+.s1-hero { font-family:var(--ff-d); font-size:var(--fs-hero); line-height:.9; letter-spacing:.01em; margin-bottom:clamp(.6rem,1.5vh,1.2rem); }
+.s1-hero em { color:var(--accent); font-style:normal; }
+.s1-sub { font-size:var(--fs-h3); color:var(--muted); font-weight:300; max-width:600px; line-height:1.45; margin-bottom:clamp(1.8rem,4vh,3rem); }
+
+/* Timeline */
+.tl { position:relative; }
+.tl-line { position:absolute; top:18px; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),rgba(217,119,87,.25)); }
+.tl-nodes { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap); }
+.tl-node { padding-top:46px; text-align:center; position:relative; }
+.tl-dot { position:absolute; top:6px; left:50%; transform:translateX(-50%); width:22px; height:22px; border-radius:50%; background:var(--accent); border:4px solid var(--bg); box-shadow:0 0 0 2px var(--accent); }
+.tl-dot.red { background:#C0392B; box-shadow:0 0 0 2px #C0392B; }
+.tl-ts { position:absolute; top:-24px; left:0; right:0; font-size:.65rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.tl-node h4 { font-size:clamp(.85rem,1.4vw,1.1rem); font-weight:700; margin-bottom:.3rem; }
+.tl-node p { font-size:clamp(.72rem,1.1vw,.9rem); color:var(--muted); line-height:1.55; }
+
+/* ══════════════════════════════
+   SLIDE 2
+══════════════════════════════ */
+.s2-title { font-family:var(--ff-d); font-size:var(--fs-h2); line-height:.95; margin-bottom:clamp(1.2rem,2.5vh,2rem); }
+.s2-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap); }
+.s2-card { background:var(--card); border-radius:14px; padding:clamp(1.2rem,2.5vw,2rem); position:relative; overflow:hidden; }
+.s2-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),rgba(217,119,87,.3)); }
+.s2-icon { font-size:clamp(1.6rem,2.5vw,2rem); margin-bottom:.6rem; }
+.s2-num { font-size:.65rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:.4rem; }
+.s2-card h4 { font-size:clamp(.9rem,1.5vw,1.2rem); font-weight:700; margin-bottom:.7rem; line-height:1.2; }
+.s2-card ul { padding-left:1rem; }
+.s2-card li { font-size:clamp(.75rem,1.15vw,.95rem); color:var(--muted); line-height:1.75; }
+.s2-card li::marker { color:var(--accent); }
+
+/* ══════════════════════════════
+   SLIDE 3
+══════════════════════════════ */
+.s3-title { font-family:var(--ff-d); font-size:var(--fs-h2); line-height:.95; margin-bottom:clamp(1.2rem,2.5vh,2rem); }
+.s3-title span { color:var(--accent); }
+.s3-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap); margin-bottom:clamp(1.5rem,3vh,2.5rem); }
+.s3-card { background:var(--card); border-radius:14px; padding:clamp(1.2rem,2.5vw,1.8rem); }
+.s3-icon { font-size:clamp(1.8rem,2.8vw,2.2rem); margin-bottom:.6rem; }
+.s3-card strong { display:block; font-size:clamp(.85rem,1.4vw,1.1rem); margin-bottom:.35rem; }
+.s3-card p { font-size:clamp(.72rem,1.1vw,.92rem); color:var(--muted); line-height:1.6; }
+.s3-quote { border-left:3px solid var(--accent); padding-left:clamp(1rem,2vw,1.8rem); }
+.s3-quote p { font-size:clamp(.95rem,1.6vw,1.3rem); font-style:italic; line-height:1.65; color:var(--text); }
 </style>
 </head>
-<body data-themes="claude" data-theme-base="assets/themes/">
-<div class="deck">
+<body>
 
-  <!-- SLIDE 1 -->
-  <section class="slide" data-title="What Happened">
-    <div class="deck-header">
-      <span class="eyebrow">Share &amp; Tell · Responsible AI</span>
-      <span class="eyebrow">BU.330.735 · Andre Marshall</span>
-    </div>
+<div class="progress-bar" id="progressBar"></div>
+<nav class="nav-dots" id="navDots"></nav>
 
-    <p class="kicker">Week 4 Safety &amp; Security · Week 6 Regulatory Frameworks</p>
-    <h2 class="h2 anim-fade-up" data-anim="fade-up" style="font-size:34px;line-height:1.25;max-width:860px">
-      <span class="gradient-text">"Fix This Code"</span> — How 3 Words<br>Shut Down the World's Most Powerful AI
-    </h2>
+<!-- ════════ SLIDE 1 ════════ -->
+<section class="slide" id="slide-1">
+  <div class="tag reveal d1">Share &amp; Tell · Responsible AI · BU.330.735</div>
 
-    <div class="tl">
-      <div class="row anim-stagger-list" data-anim-target>
-        <div class="item">
-          <div class="timestamp">June 9, 2026</div>
-          <div class="dot"></div>
-          <h4>Fable 5 Launches</h4>
-          <p>Public release with guardrails. Underlying <em>Mythos</em> model withheld — too dangerous to ship.</p>
-        </div>
-        <div class="item">
-          <div class="timestamp">June 12 · 17:21</div>
-          <div class="dot"></div>
-          <h4>Jailbreak Found</h4>
-          <p><em>"Fix this code"</em> bypasses all guardrails. Andy Jassy calls the White House. <strong>90 minutes to comply.</strong></p>
-        </div>
-        <div class="item">
-          <div class="timestamp">June 12 · 18:51</div>
-          <div class="dot red"></div>
-          <h4>Global Shutdown</h4>
-          <p>Can't verify 100M+ users' citizenship in real time → everyone cut off.</p>
-        </div>
+  <h1 class="s1-hero reveal d2">
+    <em>"Fix This</em><br>Code"
+  </h1>
+  <p class="s1-sub reveal d3">How 3 words shut down the world's most powerful AI</p>
+
+  <div class="tl reveal d4">
+    <div class="tl-line"></div>
+    <div class="tl-nodes">
+      <div class="tl-node">
+        <div class="tl-ts">June 9, 2026</div>
+        <div class="tl-dot"></div>
+        <h4>Fable 5 Launches</h4>
+        <p>Public release with guardrails. Underlying <em>Mythos</em> too dangerous to ship.</p>
+      </div>
+      <div class="tl-node">
+        <div class="tl-ts">June 12 · 17:21</div>
+        <div class="tl-dot"></div>
+        <h4>Jailbreak Found</h4>
+        <p>"Fix this code" bypasses everything. Andy Jassy calls the White House. <strong>90 min to comply.</strong></p>
+      </div>
+      <div class="tl-node">
+        <div class="tl-ts">June 12 · 18:51</div>
+        <div class="tl-dot red"></div>
+        <h4>Global Shutdown</h4>
+        <p>Can't verify 100M+ users' nationality → everyone cut off.</p>
       </div>
     </div>
+  </div>
 
-    <div class="deck-footer">
-      <span class="dim2">Marvin Li · JHU Carey</span>
-      <span class="slide-number" data-current="1" data-total="3"></span>
+  <footer class="slide-footer"><span>Marvin Li · JHU Carey</span><span>1 / 3</span></footer>
+</section>
+
+<!-- ════════ SLIDE 2 ════════ -->
+<section class="slide" id="slide-2">
+  <div class="tag reveal d1">Why It's Complicated</div>
+  <h2 class="s2-title reveal d2">Three Tensions<br>This Case Exposes</h2>
+
+  <div class="s2-grid">
+    <div class="s2-card reveal d3">
+      <div class="s2-icon">🛡️</div>
+      <div class="s2-num">Tension 01</div>
+      <h4>Safety vs. Access</h4>
+      <ul>
+        <li>Same jailbreak works on other public models</li>
+        <li>This standard = halt all frontier releases</li>
+        <li>Who defines "safe enough"?</li>
+      </ul>
     </div>
-    <div class="notes">背景：Mythos 从未公开，Fable 5 是加了护栏的公开版。发布 3 天后被发现用"fix this code"就能绕过全部护栏，触发政府介入。</div>
-  </section>
-
-  <!-- SLIDE 2 -->
-  <section class="slide" data-title="Three Tensions">
-    <div class="deck-header">
-      <span class="eyebrow">Share &amp; Tell · Responsible AI</span>
-      <span class="eyebrow">BU.330.735 · Andre Marshall</span>
+    <div class="s2-card reveal d4">
+      <div class="s2-icon">🏢</div>
+      <div class="s2-num">Tension 02</div>
+      <h4>Amazon's Triple Role</h4>
+      <ul>
+        <li>Biggest investor in Anthropic</li>
+        <li>Primary cloud provider (AWS)</li>
+        <li>The one who called the government</li>
+        <li>Safety move — or competitive?</li>
+      </ul>
     </div>
-
-    <p class="kicker">Why It's Complicated</p>
-    <h2 class="h2 anim-fade-up" data-anim="fade-up">Three Tensions This Case Exposes</h2>
-
-    <div class="tension-grid anim-stagger-list" data-anim-target>
-      <div class="tension-card">
-        <div class="tension-icon">🛡️</div>
-        <div class="tension-num">Tension 01</div>
-        <h4>Safety vs. Access</h4>
-        <ul>
-          <li>Same jailbreak works on other public models</li>
-          <li>This standard = halt all frontier releases</li>
-          <li>Who defines "safe enough"?</li>
-        </ul>
-      </div>
-      <div class="tension-card">
-        <div class="tension-icon">🏢</div>
-        <div class="tension-num">Tension 02</div>
-        <h4>Amazon's Triple Role</h4>
-        <ul>
-          <li>Biggest investor in Anthropic</li>
-          <li>Cloud provider (AWS)</li>
-          <li>The one who called the government</li>
-          <li>Safety concern — or competitive move?</li>
-        </ul>
-      </div>
-      <div class="tension-card">
-        <div class="tension-icon">⚖️</div>
-        <div class="tension-num">Tension 03</div>
-        <h4>First-Ever AI Export Control</h4>
-        <ul>
-          <li>Never used on a commercial AI model before</li>
-          <li>Only Anthropic — not OpenAI, Google, Meta</li>
-          <li>Zero legal framework to appeal it</li>
-        </ul>
-      </div>
+    <div class="s2-card reveal d5">
+      <div class="s2-icon">⚖️</div>
+      <div class="s2-num">Tension 03</div>
+      <h4>First-Ever AI Export Control</h4>
+      <ul>
+        <li>Never done on a commercial AI model before</li>
+        <li>Only Anthropic — not OpenAI, Google, Meta</li>
+        <li>Zero legal framework to appeal it</li>
+      </ul>
     </div>
+  </div>
 
-    <div class="deck-footer">
-      <span class="dim2">Marvin Li · JHU Carey</span>
-      <span class="slide-number" data-current="2" data-total="3"></span>
+  <footer class="slide-footer"><span>Marvin Li · JHU Carey</span><span>2 / 3</span></footer>
+</section>
+
+<!-- ════════ SLIDE 3 ════════ -->
+<section class="slide" id="slide-3">
+  <div class="tag reveal d1">Why It Matters</div>
+  <h2 class="s3-title reveal d2">The First Shutdown<br><span>Won't Be the Last</span></h2>
+
+  <div class="s3-grid">
+    <div class="s3-card reveal d3">
+      <div class="s3-icon">🔓</div>
+      <strong>Guardrails don't scale</strong>
+      <p>"Fix this code" bypassed everything. Asking the model to judge intent is fundamentally unreliable.</p>
     </div>
-    <div class="notes">三个张力层层递进：谁来定安全标准 → 举报者有无利益冲突 → 政府介入 AI 的新工具是什么。</div>
-  </section>
-
-  <!-- SLIDE 3 -->
-  <section class="slide" data-title="Why It Matters">
-    <div class="deck-header">
-      <span class="eyebrow">Share &amp; Tell · Responsible AI</span>
-      <span class="eyebrow">BU.330.735 · Andre Marshall</span>
+    <div class="s3-card reveal d4">
+      <div class="s3-icon">⚡</div>
+      <strong>Export controls &gt; legislation</strong>
+      <p>90-minute notice. No courts. No appeals. Governments won't wait for Congress.</p>
     </div>
-
-    <h2 class="h2 anim-fade-up" data-anim="fade-up" style="font-size:30px;line-height:1.3;max-width:900px">
-      The First Government Shutdown of a Commercial AI Model
-      <span class="gradient-text"> Won't Be the Last</span>
-    </h2>
-
-    <div class="why-grid anim-stagger-list" data-anim-target>
-      <div class="why-card">
-        <div class="why-icon">🔓</div>
-        <strong>Guardrails don't scale</strong>
-        <p>"Fix this code" bypassed everything. Asking a model to judge intent is fundamentally unreliable.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">⚡</div>
-        <strong>Export controls &gt; legislation</strong>
-        <p>90-minute notice. No courts. No appeals. Governments won't wait for Congress.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">🌐</div>
-        <strong>AI access = geopolitical lever</strong>
-        <p>Your nationality can get your tools cut off. Access is no longer just a product.</p>
-      </div>
+    <div class="s3-card reveal d5">
+      <div class="s3-icon">🌐</div>
+      <strong>AI access = geopolitical lever</strong>
+      <p>Your nationality can get your tools cut off. Access is no longer just a product.</p>
     </div>
+  </div>
 
-    <div class="big-quote anim-fade-up" data-anim="fade-up">
-      "This isn't just a story about one model being taken offline.<br>
-      It's a preview of how governments will govern AI —<br>
-      through national security, not legislation."
-    </div>
+  <div class="s3-quote reveal d5">
+    <p>"This isn't just a story about one model being taken offline. It's a preview of how governments will govern AI — through national security, not legislation."</p>
+  </div>
 
-    <div class="deck-footer">
-      <span class="dim2">Marvin Li · JHU Carey</span>
-      <span class="slide-number" data-current="3" data-total="3"></span>
-    </div>
-    <div class="notes">结尾停顿几秒，让引言本身说话。核心论点：技术漏洞触发政策行动的速度，已远超现有治理框架。</div>
-  </section>
+  <footer class="slide-footer"><span>Marvin Li · JHU Carey</span><span>3 / 3</span></footer>
+</section>
 
-</div>
-<script src="assets/runtime.js"></script>
+<script>
+class Deck {
+  constructor() {
+    this.slides = [...document.querySelectorAll('.slide')];
+    this.n = this.slides.length;
+    this.i = 0;
+    this.pb = document.getElementById('progressBar');
+    this.nd = document.getElementById('navDots');
+    this.dots = [];
+    this.lastWheel = 0;
+    this.ty = 0;
+    this.buildDots();
+    this.observe();
+    this.keys();
+    this.wheel();
+    this.touch();
+    this.go(0, false);
+  }
+  buildDots() {
+    this.dots = this.slides.map((_, i) => {
+      const b = document.createElement('button');
+      b.className = 'nav-dot';
+      b.setAttribute('aria-label', `Slide ${i+1}`);
+      b.onclick = () => this.go(i);
+      this.nd.appendChild(b);
+      return b;
+    });
+  }
+  observe() {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); this.sync(this.slides.indexOf(e.target)); }
+      });
+    }, { threshold: 0.55 });
+    this.slides.forEach(s => io.observe(s));
+  }
+  go(i, smooth = true) {
+    i = Math.max(0, Math.min(this.n-1, i));
+    this.i = i;
+    this.slides[i].scrollIntoView({ behavior: smooth ? 'smooth' : 'instant' });
+    this.sync(i);
+  }
+  sync(i) {
+    this.i = i;
+    if (this.pb) this.pb.style.width = (this.n > 1 ? i/(this.n-1)*100 : 100) + '%';
+    this.dots.forEach((d, j) => d.classList.toggle('active', j === i));
+  }
+  keys() {
+    document.addEventListener('keydown', e => {
+      if (['ArrowDown','ArrowRight',' ','PageDown'].includes(e.key)) { e.preventDefault(); this.go(this.i+1); }
+      if (['ArrowUp','ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); this.go(this.i-1); }
+    });
+  }
+  wheel() {
+    document.addEventListener('wheel', e => {
+      const now = Date.now();
+      if (now - this.lastWheel < 750) return;
+      this.lastWheel = now;
+      if (e.deltaY > 25) this.go(this.i+1);
+      else if (e.deltaY < -25) this.go(this.i-1);
+    }, { passive: true });
+  }
+  touch() {
+    document.addEventListener('touchstart', e => { this.ty = e.touches[0].clientY; }, { passive: true });
+    document.addEventListener('touchend', e => {
+      const d = this.ty - e.changedTouches[0].clientY;
+      if (Math.abs(d) > 50) this.go(d > 0 ? this.i+1 : this.i-1);
+    }, { passive: true });
+  }
+}
+new Deck();
+</script>
 </body>
 </html>
